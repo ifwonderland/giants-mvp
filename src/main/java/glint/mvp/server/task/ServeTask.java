@@ -3,6 +3,7 @@ package glint.mvp.server.task;
 import glint.mvp.cache.VoteQueue;
 import glint.mvp.model.PlayerVotes;
 import glint.mvp.model.Vote;
+import glint.mvp.model.VoteResult;
 import glint.mvp.util.Constants;
 
 import java.util.ArrayList;
@@ -11,7 +12,7 @@ import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ConcurrentHashMap;
 
-public class ServeTask implements Callable<List<PlayerVotes>> {
+public class ServeTask implements Callable<VoteResult> {
 
     private final VoteQueue voteQueue;
 
@@ -20,7 +21,7 @@ public class ServeTask implements Callable<List<PlayerVotes>> {
     }
 
     @Override
-    public List<PlayerVotes> call() throws Exception {
+    public VoteResult call() throws Exception {
         Vote vote = voteQueue.dequeue();
 
         //persist vote to DB
@@ -43,7 +44,7 @@ public class ServeTask implements Callable<List<PlayerVotes>> {
 
 
 
-        return null;
+        return new VoteResult(vote, dummyVotes);
     }
 
 }

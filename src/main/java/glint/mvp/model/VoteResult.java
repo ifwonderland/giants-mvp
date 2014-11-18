@@ -25,4 +25,34 @@ public class VoteResult {
     public List<PlayerVotes> getResult() {
         return result;
     }
+
+
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof VoteResult)) return false;
+
+        VoteResult that = (VoteResult) o;
+
+        if (!result.equals(that.result)) return false;
+        if (!vote.equals(that.vote)) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result1 = vote.hashCode();
+        result1 = 31 * result1 + result.hashCode();
+        return result1;
+    }
+
+    @Override
+    public String toString() {
+        return "VoteResult{" +
+                "vote=" + vote +
+                ", result=" + result +
+                '}';
+    }
 }
