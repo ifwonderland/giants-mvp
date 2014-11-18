@@ -10,3 +10,12 @@
 
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
+/target
+
+#Intellij or other IDE related stuff
+.classpath
+.idea
+.idea/
+.settings
+*.iml
+
