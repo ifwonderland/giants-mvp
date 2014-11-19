@@ -5,7 +5,7 @@ package glint.mvp.model;
  * @author shuang
  *
  */
-public class Vote {
+public class Vote implements Comparable<Vote>{
 
     private int clientId;
 
@@ -63,4 +63,12 @@ public class Vote {
         return true;
     }
 
+    @Override
+    public int compareTo(Vote o) {
+        int voteIdDiff = voteId - o.getVoteId();
+        if(voteIdDiff!=0)
+            return voteIdDiff;
+
+        return clientId - o.getClientId();
+    }
 }

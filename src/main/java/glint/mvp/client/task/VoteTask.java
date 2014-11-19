@@ -42,7 +42,7 @@ public class VoteTask implements Callable<List<VoteResult>> {
             while (result == null)
                 result = VoteResultCache.getInstance().get(vote);
 
-            log.debug("Vote result found for vote: " + vote + " result: " + result + " thread: " + Thread.currentThread());
+            log.info("Vote result found for vote: " + vote + " result: " + result + " thread: " + Thread.currentThread());
 
             results.add(result);
         }

@@ -27,7 +27,7 @@ public class VoteClient implements Callable<List<VoteResult>> {
 
         List<Future<List<VoteResult>>> futures = new ArrayList<>();
 
-        for (int i = 0; i < Constants.numVotes; i++) {
+        for (int i = 0; i < Constants.numClientThreads; i++) {
             Callable<List<VoteResult>> task = new VoteTask(TaskIdGenerator.getNext());
             Future<List<VoteResult>> future = executor.submit(task);
             futures.add(future);

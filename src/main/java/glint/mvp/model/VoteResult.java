@@ -1,5 +1,7 @@
 package glint.mvp.model;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -7,7 +9,7 @@ import java.util.List;
  * Voting results for a current vote
  * Created by ifwonderland on 11/17/14.
  */
-public class VoteResult {
+public class VoteResult implements Comparable<VoteResult>{
 
     private Vote vote;
 
@@ -35,8 +37,16 @@ public class VoteResult {
 
         VoteResult that = (VoteResult) o;
 
-        if (!result.equals(that.result)) return false;
         if (!vote.equals(that.vote)) return false;
+
+        List<PlayerVotes> thisPvs = new ArrayList<>(result);
+        Collections.sort(thisPvs);
+
+        List<PlayerVotes> thatPvs = new ArrayList<>(that.getResult());
+        Collections.sort(thatPvs);
+
+        if (!thisPvs.equals(thatPvs)) return false;
+
 
         return true;
     }
@@ -54,5 +64,10 @@ public class VoteResult {
                 "vote=" + vote +
                 ", result=" + result +
                 '}';
+    }
+
+    @Override
+    public int compareTo(VoteResult o) {
+        return this.getVote().compareTo(o.getVote());
     }
 }
