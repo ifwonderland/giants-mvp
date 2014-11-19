@@ -2,8 +2,7 @@ package glint.mvp.server;
 
 import glint.mvp.cache.VoteQueue;
 import glint.mvp.model.VoteResult;
-import glint.mvp.server.VoteCountServer;
-import glint.mvp.server.task.ServeTask;
+import glint.mvp.server.task.ServerTask;
 import glint.mvp.util.Constants;
 
 import java.util.ArrayList;
@@ -26,7 +25,7 @@ public class VoteCountServer implements Callable<List<VoteResult>> {
         List<Future<VoteResult>> futures = new ArrayList<>();
 
         for (int i = 0; i < Constants.numVotes; i++) {
-            Callable<VoteResult> task = new ServeTask(VoteQueue.getInstance());
+            Callable<VoteResult> task = new ServerTask();
             Future<VoteResult> future = executor.submit(task);
             futures.add(future);
         }

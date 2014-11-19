@@ -1,19 +1,12 @@
 package glint.mvp.client;
 
-import glint.mvp.cache.VoteQueue;
-import glint.mvp.cache.VoteResultCache;
-import glint.mvp.client.VoteClient;
-import glint.mvp.client.task.TaskIdGenerator;
+import glint.mvp.util.TaskIdGenerator;
 import glint.mvp.client.task.VoteTask;
-import glint.mvp.model.PlayerVotes;
-import glint.mvp.model.Vote;
 import glint.mvp.model.VoteResult;
 import glint.mvp.util.Constants;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.concurrent.*;
 
 /**
@@ -35,7 +28,7 @@ public class VoteClient implements Callable<List<VoteResult>> {
         List<Future<List<VoteResult>>> futures = new ArrayList<>();
 
         for (int i = 0; i < Constants.numVotes; i++) {
-            Callable<List<VoteResult>> task = new VoteTask(TaskIdGenerator.getNext(), VoteQueue.getInstance(), VoteResultCache.getInstance());
+            Callable<List<VoteResult>> task = new VoteTask(TaskIdGenerator.getNext());
             Future<List<VoteResult>> future = executor.submit(task);
             futures.add(future);
         }

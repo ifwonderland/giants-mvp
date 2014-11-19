@@ -6,7 +6,7 @@ package glint.mvp.cache;
  *
  * Created by ifwonderland on 11/17/14.
  */
-public interface CacheRegistry<K, V> {
+public interface Cache<K, V> {
 
     /**
      * Get a singleton instance of this cache.
@@ -14,11 +14,25 @@ public interface CacheRegistry<K, V> {
      */
     V get(K key);
 
+
     /**
-     * remove by key
+     * Add new cache into the registry
+     * @param key
+     * @param value
+     */
+    void put(K key, V value);
+
+    /**
+     * remove by key and returned its value if found otherwise return null
      * @param key
      */
-    void remove(K key);
+    V remove(K key);
+
+
+    /**
+     *remove the first element in the cache
+     */
+    V remove() throws Exception;
 
 
     /**

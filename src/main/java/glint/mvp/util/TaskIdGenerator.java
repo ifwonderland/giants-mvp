@@ -1,4 +1,4 @@
-package glint.mvp.client.task;
+package glint.mvp.util;
 
 import java.util.concurrent.atomic.AtomicInteger;
 

@@ -1,28 +1,24 @@
 package glint.mvp.server.task;
 
 import glint.mvp.cache.VoteQueue;
+import glint.mvp.cache.VoteResultCache;
 import glint.mvp.model.PlayerVotes;
 import glint.mvp.model.Vote;
 import glint.mvp.model.VoteResult;
 import glint.mvp.util.Constants;
+import org.apache.log4j.Logger;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.Callable;
-import java.util.concurrent.ConcurrentHashMap;
 
-public class ServeTask implements Callable<VoteResult> {
-
-    private final VoteQueue voteQueue;
-
-    public ServeTask(VoteQueue voteQueue) {
-        this.voteQueue = voteQueue;
-    }
+public class ServerTask implements Callable<VoteResult> {
+    private final Logger log = Logger.getLogger(ServerTask.class);
 
     @Override
     public VoteResult call() throws Exception {
-        Vote vote = voteQueue.dequeue();
+        Vote vote = VoteQueue.getInstance().remove();
+        log.debug("Starting processing vote: " + vote + " from the vote queue, thread: " + Thread.currentThread());
 
         //persist vote to DB
 
@@ -43,8 +39,12 @@ public class ServeTask implements Callable<VoteResult> {
         }
 
 
+        VoteResult result = new VoteResult(vote, dummyVotes);
+        log.debug("Result calculated for vote: "+vote+", result: "+result);
 
-        return new VoteResult(vote, dummyVotes);
+        VoteResultCache.getInstance().put(vote, result);
+
+        return result;
     }
 
 }

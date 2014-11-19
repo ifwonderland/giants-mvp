@@ -5,11 +5,13 @@ import glint.mvp.cache.VoteResultCache;
 import glint.mvp.client.VoteClient;
 import glint.mvp.model.VoteResult;
 import glint.mvp.server.VoteCountServer;
-import junit.framework.Assert;
+
 import org.junit.After;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -51,11 +53,17 @@ public class VoteTest {
         List<VoteResult> serverVotes = serverVotesFuture.get();
 
 
+
+
         Assert.assertEquals(clientVotes, serverVotes);
 
 
 
 
     }
+
+
+
+
 
 }

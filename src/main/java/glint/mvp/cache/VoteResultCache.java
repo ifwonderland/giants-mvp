@@ -1,17 +1,16 @@
 package glint.mvp.cache;
 
-import glint.mvp.model.PlayerVotes;
 import glint.mvp.model.Vote;
 import glint.mvp.model.VoteResult;
 
-import java.util.List;
+import javax.naming.OperationNotSupportedException;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Cache for current voting result
  * Created by ifwonderland on 11/16/14.
  */
-public class VoteResultCache implements CacheRegistry<Vote, VoteResult> {
+public class VoteResultCache implements Cache<Vote, VoteResult> {
 
     private static ConcurrentHashMap<Vote, VoteResult> currentVoteResults;
 
@@ -26,8 +25,18 @@ public class VoteResultCache implements CacheRegistry<Vote, VoteResult> {
     }
 
     @Override
-    public void remove(Vote key) {
-        currentVoteResults.remove(key);
+    public void put(Vote key, VoteResult value) {
+        currentVoteResults.put(key, value);
+    }
+
+    @Override
+    public VoteResult remove(Vote key) {
+        return currentVoteResults.remove(key);
+    }
+
+    @Override
+    public VoteResult remove() throws Exception {
+        throw new OperationNotSupportedException("Not supported");
     }
 
     @Override
@@ -35,7 +44,6 @@ public class VoteResultCache implements CacheRegistry<Vote, VoteResult> {
         currentVoteResults.clear();
     }
 
-    //= new ConcurrentHashMap<Vote, VoteResult>();
 
     public static VoteResultCache getInstance() {
         return (VoteResultCache) CacheRepository.getInstance(VoteResultCache.class.getName());

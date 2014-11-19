@@ -15,7 +15,7 @@ public final class CacheRepository {
 
     private static Logger log = Logger.getLogger(CacheRepository.class);
 
-    private static Map<String, CacheRegistry> caches = new HashMap<>();
+    private static Map<String, Cache> caches = new HashMap<>();
 
     private CacheRepository() {
         //private constructor to prevent instantiation
@@ -27,18 +27,19 @@ public final class CacheRepository {
      * @param className
      * @return null if not found otherwise returns singleton cache registry
      */
-    public static synchronized CacheRegistry getInstance(String className) {
+    public static synchronized Cache getInstance(String className) {
         if (StringUtils.isEmpty(className)){
             log.warn("Class name passed in is null or empty. No cache found, return null.");
             return null;
         }
 
 
-        CacheRegistry cache = caches.get(className);
+        Cache cache = caches.get(className);
         if(cache!=null){
-            log.debug("Cache found for class name: "+className);
             return cache;
         }
+
+        log.debug("Cache could not be found for class name: "+className);
 
         //otherwise instantialize these caches, lazy instantiation
         Class c = null;
@@ -46,10 +47,10 @@ public final class CacheRepository {
             c = Class.forName(className);
             Object obj = c.newInstance();
 
-            if(!(obj instanceof CacheRegistry))
+            if(!(obj instanceof Cache))
                 throw new ClassNotFoundException("Class is not of type: CacheRegistry. "+className);
 
-            cache = (CacheRegistry)obj;
+            cache = (Cache)obj;
 
             caches.put(className, cache);
             return cache;
