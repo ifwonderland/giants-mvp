@@ -5,20 +5,19 @@ package glint.mvp.model;
  * @author shuang
  *
  */
-public class Vote implements Comparable<Vote>{
+public class Vote implements Comparable<Vote> {
 
     private int clientId;
 
     private int voteId;
 
-    private int playerId;
+    private Player player;
 
-    public Vote(int clientId, int voteId, int playerId) {
+    public Vote(int clientId, int voteId, Player player) {
         this.clientId = clientId;
         this.voteId = voteId;
-        this.playerId = playerId;
+        this.player = player;
     }
-
 
     public int getClientId() {
         return clientId;
@@ -28,14 +27,8 @@ public class Vote implements Comparable<Vote>{
         return voteId;
     }
 
-
-    public int getPlayerId() {
-        return playerId;
-    }
-
-    @Override
-    public String toString() {
-        return "Vote [clientId=" + clientId + ", voteId=" + voteId + "]";
+    public Player getPlayer() {
+        return player;
     }
 
     @Override
@@ -43,6 +36,7 @@ public class Vote implements Comparable<Vote>{
         final int prime = 31;
         int result = 1;
         result = prime * result + clientId;
+        result = prime * result + ((player == null) ? 0 : player.hashCode());
         result = prime * result + voteId;
         return result;
     }
@@ -58,15 +52,26 @@ public class Vote implements Comparable<Vote>{
         Vote other = (Vote) obj;
         if (clientId != other.clientId)
             return false;
+        if (player == null) {
+            if (other.player != null)
+                return false;
+        }
+        else if (!player.equals(other.player))
+            return false;
         if (voteId != other.voteId)
             return false;
         return true;
     }
 
     @Override
+    public String toString() {
+        return "Vote [clientId=" + clientId + ", voteId=" + voteId + ", player=" + player + "]";
+    }
+
+    @Override
     public int compareTo(Vote o) {
         int voteIdDiff = voteId - o.getVoteId();
-        if(voteIdDiff!=0)
+        if (voteIdDiff != 0)
             return voteIdDiff;
 
         return clientId - o.getClientId();

@@ -7,33 +7,29 @@ package glint.mvp.model;
  */
 public class PlayerVotes implements Comparable<PlayerVotes> {
 
-    private int playerId;
+    private Player player;
 
     private int voteCount;
 
-    public PlayerVotes(int playerId, int voteCount) {
-        this.playerId = playerId;
+    public PlayerVotes(Player player, int voteCount) {
+        this.player = player;
         this.voteCount = voteCount;
     }
 
-    public long getPlayerId() {
-        return playerId;
+    public Player getPlayer() {
+        return player;
     }
 
-    public long getVoteCount() {
+    public int getVoteCount() {
         return voteCount;
-    }
-
-    public int compareTo(PlayerVotes o) {
-        return Long.compare(this.voteCount, o.voteCount);
     }
 
     @Override
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        result = prime * result + (int) (playerId ^ (playerId >>> 32));
-        result = prime * result + (int) (voteCount ^ (voteCount >>> 32));
+        result = prime * result + ((player == null) ? 0 : player.hashCode());
+        result = prime * result + voteCount;
         return result;
     }
 
@@ -46,7 +42,11 @@ public class PlayerVotes implements Comparable<PlayerVotes> {
         if (getClass() != obj.getClass())
             return false;
         PlayerVotes other = (PlayerVotes) obj;
-        if (playerId != other.playerId)
+        if (player == null) {
+            if (other.player != null)
+                return false;
+        }
+        else if (!player.equals(other.player))
             return false;
         if (voteCount != other.voteCount)
             return false;
@@ -55,7 +55,12 @@ public class PlayerVotes implements Comparable<PlayerVotes> {
 
     @Override
     public String toString() {
-        return "PlayerVotes [playerId=" + playerId + ", voteCount=" + voteCount + "]";
+        return "PlayerVotes [player=" + player + ", voteCount=" + voteCount + "]";
+    }
+
+    @Override
+    public int compareTo(PlayerVotes o) {
+        return this.voteCount - o.getVoteCount(); //sort by vote counts
     }
 
 }
