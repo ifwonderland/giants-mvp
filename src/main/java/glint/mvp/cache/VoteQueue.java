@@ -71,13 +71,13 @@ public final class VoteQueue implements Cache<Vote, Vote> {
 
 
     private void enqueue(Vote vote) throws InterruptedException {
-        log.info("Vote " + vote + " enqueued into vote queue. ");
+        log.debug("Vote " + vote + " enqueued into vote queue. ");
         voteQueue.put(vote);
     }
 
     private Vote dequeue() throws InterruptedException {
         Vote vote = voteQueue.take();
-        log.info("Vote " + vote + " dequeued and to be processed. ");
+        log.debug("Vote " + vote + " dequeued and to be processed. ");
         return vote;
     }
 }

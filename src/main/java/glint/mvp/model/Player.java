@@ -12,6 +12,7 @@ public class Player {
 
     /**
      * Only position is required to create a new player object
+     *
      * @param position
      */
     public Player(String firstName, String lastName, Position position) {
@@ -71,22 +72,19 @@ public class Player {
         if (firstName == null) {
             if (other.firstName != null)
                 return false;
-        }
-        else if (!firstName.equals(other.firstName))
+        } else if (!firstName.equals(other.firstName))
             return false;
         if (id != other.id)
             return false;
         if (lastName == null) {
             if (other.lastName != null)
                 return false;
-        }
-        else if (!lastName.equals(other.lastName))
+        } else if (!lastName.equals(other.lastName))
             return false;
         if (position == null) {
             if (other.position != null)
                 return false;
-        }
-        else if (!position.equals(other.position))
+        } else if (!position.equals(other.position))
             return false;
         return true;
     }

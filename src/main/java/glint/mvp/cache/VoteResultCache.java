@@ -4,6 +4,8 @@ import glint.mvp.model.Vote;
 import glint.mvp.model.VoteResult;
 
 import javax.naming.OperationNotSupportedException;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
@@ -21,7 +23,10 @@ public class VoteResultCache implements Cache<Vote, VoteResult> {
 
     @Override
     public VoteResult get(Vote key) {
-        return currentVoteResults.get(key);
+        VoteResult vr = currentVoteResults.get(key);
+        if (vr == null)
+            return null;
+        return new VoteResult(vr);
     }
 
     @Override
@@ -43,6 +48,17 @@ public class VoteResultCache implements Cache<Vote, VoteResult> {
     public void clear() {
         currentVoteResults.clear();
     }
+
+
+    public Set<Vote> list() {
+        Set<Vote> votes = new HashSet<>();
+        for (Vote vote : currentVoteResults.keySet()) {
+            votes.add(vote);
+        }
+        return votes;
+    }
+
+
 
 
     public static VoteResultCache getInstance() {

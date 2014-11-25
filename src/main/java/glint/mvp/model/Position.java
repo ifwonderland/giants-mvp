@@ -2,8 +2,8 @@ package glint.mvp.model;
 
 /**
  * Represents a position a player can play
- * @author shuang
  *
+ * @author shuang
  */
 public class Position {
 
@@ -12,11 +12,6 @@ public class Position {
     private String name;
 
     private String description;
-
-    public Position(String name, String description) {
-        this.name = name;
-        this.description = description;
-    }
 
     public Position(int id, String name, String description) {
         this.id = id;
@@ -58,16 +53,14 @@ public class Position {
         if (description == null) {
             if (other.description != null)
                 return false;
-        }
-        else if (!description.equals(other.description))
+        } else if (!description.equals(other.description))
             return false;
         if (id != other.id)
             return false;
         if (name == null) {
             if (other.name != null)
                 return false;
-        }
-        else if (!name.equals(other.name))
+        } else if (!name.equals(other.name))
             return false;
         return true;
     }

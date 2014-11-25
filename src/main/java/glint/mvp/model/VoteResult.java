@@ -20,6 +20,10 @@ public class VoteResult implements Comparable<VoteResult>{
         this.result = result;
     }
 
+    public VoteResult(VoteResult vr) {
+        this(vr.getVote(), vr.getResult());
+    }
+
     public Vote getVote() {
         return vote;
     }

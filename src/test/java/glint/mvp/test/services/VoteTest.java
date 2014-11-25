@@ -1,16 +1,20 @@
-package glint.mvp.test;
+package glint.mvp.test.services;
 
 import glint.mvp.cache.VoteQueue;
 import glint.mvp.cache.VoteResultCache;
-import glint.mvp.client.VoteClient;
+import glint.mvp.dao.VoteDao;
 import glint.mvp.model.VoteResult;
-import glint.mvp.server.VoteCountServer;
+import glint.mvp.test.AbstractTest;
+import glint.mvp.util.Constants;
 import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
@@ -19,18 +23,20 @@ import java.util.concurrent.Future;
  * Test client side voting
  * Created by ifwonderland on 11/17/14.
  */
-public class VoteTest {
+public class VoteTest extends AbstractTest {
 
 
-    private VoteClient client = null;
-    private VoteCountServer server = null;
+    @Autowired
+    @Qualifier("voteClient")
+    private Callable<List<VoteResult>> client;
 
-    @Before
-    public void setup() {
-        client = new VoteClient();
-        server = new VoteCountServer();
-    }
+    @Autowired
+    @Qualifier("voteServer")
+    private Callable<List<VoteResult>> server;
 
+    @Autowired
+    @Qualifier("voteDao")
+    private VoteDao voteDao;
 
     @After
     public void teardown() {
@@ -42,6 +48,7 @@ public class VoteTest {
 
     @Test
     public void test() throws Exception {
+        long startTime = System.currentTimeMillis();
         ExecutorService executor = Executors.newFixedThreadPool(2);
 
         Future<List<VoteResult>> clientVotesFuture = executor.submit(client);
@@ -49,8 +56,18 @@ public class VoteTest {
 
         List<VoteResult> clientVotes = clientVotesFuture.get();
         List<VoteResult> serverVotes = serverVotesFuture.get();
+        long endTime = System.currentTimeMillis();
+
+        logger.info("Total time: " + (endTime - startTime) + " miliseconds, num of votes: " + Constants.numVotes
+                + ", num of servers: " + Constants.numServerThreads);
 
         isEquals(clientVotes, serverVotes);
+    }
+
+    @Transactional
+    public void clear(List<VoteResult> vrList) {
+        for (VoteResult vr : vrList)
+            voteDao.delete(vr.getVote().getVoteId());
     }
 
 
@@ -79,10 +96,10 @@ public class VoteTest {
         Collections.sort(votes1);
         Collections.sort(votes2);
 
-        for(int i=0;i<votes1.size();i++){
+        for (int i = 0; i < votes1.size(); i++) {
             VoteResult v1 = votes1.get(i);
             VoteResult v2 = votes2.get(i);
-            if(!v1.equals(v2))
+            if (!v1.equals(v2))
                 return false;
         }
 
@@ -90,9 +107,6 @@ public class VoteTest {
         return true;
 
     }
-
-
-
 
 
 }

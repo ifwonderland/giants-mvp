@@ -1,6 +1,5 @@
 package glint.mvp.server;
 
-import glint.mvp.cache.VoteQueue;
 import glint.mvp.model.VoteResult;
 import glint.mvp.server.task.ServerTask;
 import glint.mvp.util.Constants;
@@ -18,6 +17,7 @@ import java.util.concurrent.Future;
  * Created by ifwonderland on 11/17/14.
  */
 public class VoteCountServer implements Callable<List<VoteResult>> {
+
     @Override
     public List<VoteResult> call() throws Exception {
         ExecutorService executor = Executors.newFixedThreadPool(Constants.numServerThreads);

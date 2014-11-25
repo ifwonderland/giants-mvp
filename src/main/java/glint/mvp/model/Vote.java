@@ -1,19 +1,19 @@
 package glint.mvp.model;
 
 /**
- * Reprents a voter, with voter client id and vote id. 
- * @author shuang
+ * Reprents a voter, with voter client id and vote id.
  *
+ * @author shuang
  */
 public class Vote implements Comparable<Vote> {
 
     private int clientId;
 
-    private int voteId;
+    private Integer voteId;
 
     private Player player;
 
-    public Vote(int clientId, int voteId, Player player) {
+    public Vote(int clientId, Integer voteId, Player player) {
         this.clientId = clientId;
         this.voteId = voteId;
         this.player = player;
@@ -29,6 +29,10 @@ public class Vote implements Comparable<Vote> {
 
     public Player getPlayer() {
         return player;
+    }
+
+    public void setVoteId(Integer voteId) {
+        this.voteId = voteId;
     }
 
     @Override
@@ -55,8 +59,7 @@ public class Vote implements Comparable<Vote> {
         if (player == null) {
             if (other.player != null)
                 return false;
-        }
-        else if (!player.equals(other.player))
+        } else if (!player.equals(other.player))
             return false;
         if (voteId != other.voteId)
             return false;

@@ -1,9 +1,9 @@
 package glint.mvp.model;
 
 /**
- * Represents player vote result. 
- * @author shuang
+ * Represents player vote result.
  *
+ * @author shuang
  */
 public class PlayerVotes implements Comparable<PlayerVotes> {
 
@@ -45,8 +45,7 @@ public class PlayerVotes implements Comparable<PlayerVotes> {
         if (player == null) {
             if (other.player != null)
                 return false;
-        }
-        else if (!player.equals(other.player))
+        } else if (!player.equals(other.player))
             return false;
         if (voteCount != other.voteCount)
             return false;
@@ -60,7 +59,12 @@ public class PlayerVotes implements Comparable<PlayerVotes> {
 
     @Override
     public int compareTo(PlayerVotes o) {
-        return this.voteCount - o.getVoteCount(); //sort by vote counts
+        int voteCountDiff = o.voteCount - this.voteCount; //sort by vote counts
+        if (voteCountDiff != 0)
+            return voteCountDiff;
+        else
+            return player.getId() - o.player.getId();
+
     }
 
 }

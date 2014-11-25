@@ -31,12 +31,12 @@ public class QueryGenerator {
 
     public static String createTable(TableNames table) {
         switch (table) {
-        case position:
-            return createPositionTable();
-        case player:
-            return createPlayerTable();
-        case vote:
-            return createVoteTable();
+            case position:
+                return createPositionTable();
+            case player:
+                return createPlayerTable();
+            case vote:
+                return createVoteTable();
         }
 
         return null;
@@ -46,25 +46,25 @@ public class QueryGenerator {
     private static List<Player> players = new ArrayList<>();
 
     static {
-        String[] names = { "High pitcher", "Low pitcher", "Midrange pitcher", "High catcher",
+        String[] names = {"High pitcher", "Low pitcher", "Midrange pitcher", "High catcher",
                 "Low catcher", "Midrange catcher", "First base", "Second base", "Third base",
                 "High left field", "Low left field", "Mid left field", "High center field",
                 "Mid center field", "Low center field", "High right field", "Mid right field",
-                "Low right field", "High short stop", "Low short stop" };
+                "Low right field", "High short stop", "Low short stop"};
 
-        String[] descriptions = { "Pitcher of high targeting", "Pitcher of Low targeting",
+        String[] descriptions = {"Pitcher of high targeting", "Pitcher of Low targeting",
                 "Pitcher of Midrange targeting", "Catcher of High range", "Catcher of Low range",
                 "Catcher of Midrange", "Base of first position", "Base of Second position",
                 "Base of Third position", "Left field of high range", "Left field of Low range",
                 "Left field of Mid range", "center field of High range",
                 "center field of Mid range", "Low field of Mid range", "Right field of High range",
                 "Right field of Mid range", "Right field of Low range", "Short stop of high range",
-                "Short stop of Low range" };
+                "Short stop of Low range"};
 
         for (int i = 0; i < names.length; i++) {
             String name = names[i];
             String desc = descriptions[i];
-            Position pos = new Position(name, desc);
+            Position pos = new Position(i + 1, name, desc);
             positions.add(pos);
         }
 
@@ -121,7 +121,7 @@ public class QueryGenerator {
                 + lastName
                 + "', "
                 + posId
-                + ") AS tmp WHERE NOT EXISTS (SELECT name FROM vote.player WHERE first_name like '"
+                + ") AS tmp WHERE NOT EXISTS (SELECT first_name FROM vote.player WHERE first_name like '"
                 + firstName + "'AND last_name like '" + lastName + "') LIMIT 1;";
     }
 

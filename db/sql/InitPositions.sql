@@ -1,6 +1,6 @@
 SET foreign_key_checks = 0;
 
-drop table vote.position;
+drop table if exists vote.position;
 
 SET foreign_key_checks = 1;
 
@@ -15,7 +15,6 @@ CREATE TABLE `position` (
 
 ALTER TABLE vote.position AUTO_INCREMENT = 1;
 
-DELETE FROM vote.position where id > 0;
 
 INSERT INTO vote.position (name, description)
 SELECT * FROM (SELECT 'High pitcher', 'Pitcher of high targeting') AS tmp
